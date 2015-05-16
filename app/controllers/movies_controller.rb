@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    @movies = Movie.all.order("created_at DESC")
   end
 
   def show
@@ -53,34 +53,27 @@ class MoviesController < ApplicationController
   def create
     @movie =  current_user.movies.build(movie_params)
 
-    respond_to do |format|
-      if @movie.save
-        format.html { redirect_to @movie, notice: 'Movie was successfully created.' }
-        format.json { render :show, status: :created, location: @movie }
-      else
-        format.html { render :new }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
-      end
+    if @movie.save
+      redirect_to @movie, notice: "Movie was successfully created"
+    else
+      render 'new'
     end
   end
 
   def update
-    respond_to do |format|
-      if @movie.update(movie_params)
-        format.html { redirect_to @movie, notice: 'Movie was successfully updated.' }
-        format.json { render :show, status: :ok, location: @movie }
-      else
-        format.html { render :edit }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
-      end
+    if @movie.update(movie_params) && @movie.user == current_user
+      redirect_to @movie, notice: "Movie was successfully created"
+    else
+      redirect_to 'edit'
     end
   end
 
   def destroy
-    @movie.destroy
-    respond_to do |format|
-      format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
-      format.json { head :no_content }
+    if @movie.user == current_user
+      @movie.destroy
+      redirect_to root_path
+    else
+      redirect_to root_path
     end
   end
 
