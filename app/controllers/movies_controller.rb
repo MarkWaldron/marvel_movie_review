@@ -28,6 +28,26 @@ class MoviesController < ApplicationController
   end
 
   def edit
+    if @movie.user != current_user
+      redirect_to root_path, notice: "This is not your movie to edit"
+    end
+  end
+
+  def destroy
+    if @movie.user == current_user
+      @movie.destroy
+      redirect_to root_path
+    else
+      redirect_to root_path
+    end
+  end
+
+  def update
+    if @movie.update(movie_params) && @movie.user == current_user
+      redirect_to @movie, notice: "Movie was successfully updated"
+    else
+      render 'edit'
+    end
   end
 
   def create

@@ -1,6 +1,18 @@
-<h1>Editing Movie</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @movie %> |
-<%= link_to 'Back', movies_path %>
+<% if @movie.user == current_user %>
+  <div class="col-md-6 col-md-offset-3">
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1>Editing Movie</h1>
+        </div>
+        <div class="panel-body">
+          <%= render 'form' %>
+          <%= link_to 'Show', @movie %> |
+          <%= link_to 'Back', movies_path %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <% redirect_to root_path %>
+<% end %>

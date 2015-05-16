@@ -31,7 +31,11 @@
                 </tr>
               </tbody>
             </table>
-            <%= link_to "Write a Review", new_movie_review_path(@movie) %>
+            <%= link_to "Write a Review", new_movie_review_path(@movie), class: "btn btn-danger" %>
+            <% if @movie.user == current_user %>
+              <%= link_to 'Edit', edit_movie_path(@movie), class: "btn btn-default" %> |
+              <%= link_to 'Delete', movie_path, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default" %>
+            <% end %>
           </div>
         </div>
       </div>
@@ -52,9 +56,6 @@
     </div>
   </div>
 </div>
-
-<%= link_to 'Edit', edit_movie_path(@movie) %> |
-<%= link_to 'Back', movies_path %>
 
 <script>
     $('.star-rating').raty({
