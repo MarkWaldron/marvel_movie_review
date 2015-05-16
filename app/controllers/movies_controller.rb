@@ -33,15 +33,6 @@ class MoviesController < ApplicationController
     end
   end
 
-  def destroy
-    if @movie.user == current_user
-      @movie.destroy
-      redirect_to root_path
-    else
-      redirect_to root_path
-    end
-  end
-
   def update
     if @movie.update(movie_params) && @movie.user == current_user
       redirect_to @movie, notice: "Movie was successfully updated"
@@ -57,14 +48,6 @@ class MoviesController < ApplicationController
       redirect_to @movie, notice: "Movie was successfully created"
     else
       render 'new'
-    end
-  end
-
-  def update
-    if @movie.update(movie_params) && @movie.user == current_user
-      redirect_to @movie, notice: "Movie was successfully created"
-    else
-      redirect_to 'edit'
     end
   end
 
