@@ -21,5 +21,14 @@ Rails.application.configure do
 
   config.active_record.dump_schema_after_migration = false
 
-  
+  #AWS S3 Paperclip Settings
+
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_credentials => {
+      :bucket => ENV['S3_BUCKET'],
+      :access_key_id => ENV['S3_ID'],
+      :secret_access_key => ENV['S3_SECRET']
+    }
+  }
 end
