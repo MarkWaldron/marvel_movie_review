@@ -45,9 +45,9 @@ class MoviesController < ApplicationController
     @movie =  current_user.movies.build(movie_params)
 
     if @movie.save
-      redirect_to @movie, notice: "Movie was successfully created"
+      redirect_to root_path
     else
-      render 'new'
+      redirect_to root_path
     end
   end
 
